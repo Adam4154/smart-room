@@ -543,8 +543,12 @@
     <section class="hero" id="home">
         <div class="container">
             <h1>Smart Room Control System</h1>
-            <p>A smart room control system is basing in automatic lighting and automatic window opening and closing according to the light intensity commanded by Sensor information.
-                 Climate conditioning through temperature range that allow fan on and off when desired, and security system for room security. This controlled remotely one Adafruit IO website for
+            <p>A smart room control system is basing in automatic lighting and automatic window opening and 
+                closing according to the light intensity commanded by Sensor information.
+                 Climate conditioning through temperature range that allow fan on and off 
+                 when desired, and security
+                  system for room security. 
+                 This controlled remotely one Adafruit IO website for
                  IoT Project. Behind the WiFi along side MQTT(protocol) with Adafruit.</p>
 
         </div>
@@ -566,7 +570,6 @@
                     <p>Responsible for system architecture and hardware integration.</p>
                     <div class="creator-social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
-                        <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
                         <a href="#"><i class="fab fa-github"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
@@ -580,7 +583,6 @@
                     <p>Developer for website .</p>
                     <div class="creator-social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
-                        <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
                         <a href="#"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
@@ -592,9 +594,6 @@
                     <p class="creator-role">Site and workshop provider</p>
                     <p>Course site and site management.</p>
                     <div class="creator-social">
-                        <!-- <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a> -->
                     </div>
                 </div>
             </div>
@@ -713,7 +712,6 @@
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                                <!-- <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a> -->
                             </div>
                         </div>
                     </div>
@@ -732,7 +730,8 @@
                     <div class="step-content">
                         <h3>Sensor Data Collection</h3>
                         <p>The system continuously monitors environmental conditions using DHT11 (temperature/humidity) and LDR (light) sensors. 
-                            This data is processed by the ESP32 microcontroller as the brain of the system to recieve, processe and send the command to control actuators.</p>
+                            This data is processed by the ESP32 microcontroller as the brain of the system to recieve,
+                             processe and send the command to control actuators.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -751,14 +750,16 @@
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3>Security System Operation</h3>
-                        <p>The keypad allows users to enter a PIN had been set to unlock the door. Correct PIN activates the solenoid lock and status LEDs, while incorrect attempts trigger the buzzer and status of locked led.</p>
+                        <p>The keypad allows users to enter a PIN had been set to unlock the door. Correct PIN activates the solenoid lock and status LEDs,
+                             while incorrect attempts trigger the buzzer and status of locked led.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h3>MQTT Communication</h3>
-                        <p>The system connects to Adafruit IO via MQTT protocol to publish sensor data and receive control commands as dashboard, enabling remote monitoring and control from anywhere when is needed.</p>
+                        <p>The system connects to Adafruit IO via MQTT protocol to publish sensor data and receive control commands as dashboard,
+                             enabling remote monitoring and control from anywhere when is needed.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -776,7 +777,8 @@
     <div class="container" >
         <div class="section-title">
       <h2>Block diagram</h2>
-        <h3>Block Diagram that shows how inputs, indicators, mechanical switches, actuators, and display devices connected to Microcontroller</h3>
+        <h3>Block Diagram that shows how inputs, indicators, mechanical switches, 
+            actuators, and display devices connected to Microcontroller</h3>
        <img src="Drawing2.jpg" alt="">
       </div>
     </div>
@@ -786,7 +788,8 @@
     <div class="container" >
         <div class="section-title">
       <h2>Circuit Diagram </h2>
-        <h3>Circuit Diagram that shows how inputs, indicators, mechanical switches(relays), actuators, and display devices connected to Microcontroller and the protocol(MQTT)</h3>
+        <h3>Circuit Diagram that shows how inputs, indicators, mechanical switches(relays), 
+            actuators, and display devices connected to Microcontroller and the protocol(MQTT)</h3>
        <img src="schematic.png" alt="">
       </div>
     </div>
@@ -806,7 +809,8 @@
                     </div>
                     <div class="component-content">
                         <h3>ESP32 Microcontroller</h3>
-                        <p>The brain of our system, handling all informations from sensor,then processe them, and outputing them to control system with WiFi capabilities through dashboard.</p>
+                        <p>The brain of our system, handling all informations from sensor,then processe them,
+                             and outputing them to control system with WiFi capabilities through dashboard.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -815,7 +819,9 @@
                     </div>
                     <div class="component-content">
                         <h3>DHT11 Sensor</h3>
-                        <p>(Digital humidity and temperature) sensor; it measures temperature and humidity for climate control and referring to automatic fan on and off to maintaining weater condition.</p>
+                        <p>(Digital humidity and temperature) sensor; it measures
+                             temperature and humidity for climate control and referring to automatic
+                              fan on and off to maintaining weater condition.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -824,7 +830,8 @@
                     </div>
                     <div class="component-content">
                         <h3>LDR Light Sensor</h3>
-                        <p>(Light Dependent Resistor) sensor;it detects ambient light levels for automatic lighting control based on light intensity to switch on and off automatically.</p>
+                        <p>(Light Dependent Resistor) sensor;it detects ambient light levels for automatic 
+                            lighting control based on light intensity to switch on and off automatically.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -833,7 +840,8 @@
                     </div>
                     <div class="component-content">
                         <h3>4x3 Matrix Keypad</h3>
-                        <p>Provides secure access control with password-based door unlocking functionality and help to input password to unlock door.</p>
+                        <p>Provides secure access control with password-based door
+                             unlocking functionality and help to input password to unlock door.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -842,7 +850,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Relay Modules</h3>
-                        <p>Controls high-power devices like lights, fans, and solenoid locks safely with low-voltage signals.</p>
+                        <p>Controls high-power devices like lights, fans,
+                             and solenoid locks safely with low-voltage signals.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -851,7 +860,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Servo Motor</h3>
-                        <p>Controls window opening and closing based on light levels and automation rules and it moves in 180 angle .</p>
+                        <p>Controls window opening and closing based on light
+                             levels and automation rules and it moves in 180 angle .</p>
                     </div>
                 </div>
                 <!-- New Components Added -->
@@ -861,7 +871,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Solenoid Lock</h3>
-                        <p>Electromagnetic lock for door security system, activated when correct password is entered via keypad.</p>
+                        <p>Electromagnetic lock for door security system,
+                             activated when correct password is entered via keypad.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -870,7 +881,8 @@
                     </div>
                     <div class="component-content">
                         <h3>12V DC Fan</h3>
-                        <p>Cooling fan controlled by relay module, automatically turns on when temperature exceeds desired level for climate controlling fan on and off.</p>
+                        <p>Cooling fan controlled by relay module, automatically turns on when 
+                            temperature exceeds desired level for climate controlling fan on and off.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -879,7 +891,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Lamp</h3>
-                        <p>Lighting device controlled by relay module, automatically turns on/off based on ambient light levels detected by LDR sensor.</p>
+                        <p>Lighting device controlled by relay module, automatically
+                             turns on/off based on ambient light levels detected by LDR sensor.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -888,7 +901,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Jumper Wires</h3>
-                        <p>Connection wires used for interconnecting all components on the breadboard and establishing electrical connections between ESP32 and peripherals.</p>
+                        <p>Connection wires used for interconnecting all components on the
+                             breadboard and establishing electrical connections between ESP32 and peripherals.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -906,7 +920,9 @@
                     </div>
                     <div class="component-content">
                         <h3>Resistors</h3>
-                        <p>Resistors are electronic components that oppose the flow of current through the conductor so  we used them to protect LEDs and to make voltage divider a long side LDR sensor.</p>
+                        <p>Resistors are electronic components that oppose the flow of current
+                             through the conductor so  we used them to protect LEDs and to make
+                              voltage divider a long side LDR sensor.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -915,7 +931,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Light Emitting Diodes(LEDs)</h3>
-                        <p>Used to indicate the state on the door one for incorrect pass word and other one for correct password.</p>
+                        <p>Used to indicate the state on the door one for incorrect
+                             pass word and other one for correct password.</p>
                     </div>
                 </div>
                 <div class="component-card">
@@ -924,7 +941,8 @@
                     </div>
                     <div class="component-content">
                         <h3>Buzzer</h3>
-                        <p>Audio alert device that sounds when incorrect password is entered or for system notifications and alarms.</p>
+                        <p>Audio alert device that sounds when incorrect password is
+                             entered or for system notifications and alarms.</p>
                     </div>
                 </div>
             </div>
@@ -1127,7 +1145,8 @@
                         <i class="fas fa-home"></i>
                         <span>SmartHome IoT</span>
                     </div>
-                    <p>An innovative IoT-based smart room control system that brings intelligence and convenience to your living space
+                    <p>An innovative IoT-based smart room control system that
+                         brings intelligence and convenience to your living space
                         and to help you simplify and make work more easy than usual.</p>
                 </div>
                 <div class="footer-links">
