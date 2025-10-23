@@ -309,7 +309,7 @@
         }
 
         .creator-card {
-            background: rgb(168, 141, 141);
+            background: rgb(231, 226, 226);
             border-radius: 10px;
             padding: 2rem;
             text-align: center;
@@ -535,20 +535,6 @@
                     <i class="fas fa-home"></i>
                     <span>Smart Room control system(IOT Project)</span>
                 </div>
-                <!-- <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <nav>
-                    <ul>
-                        <li><a href="#home" class="active">Home</a></li>
-                        <li><a href="#creators">Creators</a></li>
-                        <li><a href="#working">Working Principle</a></li>
-                        <li><a href="#components">Components</a></li>
-                        <li><a href="#code">Code</a></li>
-                         <li><a href="#behindthescene">Behind the scene</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav> -->
             </div>
         </div>
     </header>
@@ -559,7 +545,7 @@
             <h1>Smart Room Control System</h1>
             <p>A smart room control system is basing in automatic lighting and automatic window opening and closing according to the light intensity commanded by Sensor information.
                  Climate conditioning through temperature range that allow fan on and off when desired, and security system for room security. This controlled remotely one Adafruit IO website for
-                 IoT Project</p>
+                 IoT Project. Behind the WiFi along side MQTT(protocol) with Adafruit.</p>
 
         </div>
     </section>
@@ -568,12 +554,12 @@
         <div class="container">
             <div class="section-title">
                 <h2>Project Creators</h2>
-                <p>Meet the team behind this Smart Home Automation System</p>
+                <p>Meet the team behind this Smart Room Control System</p>
             </div>
             <div class="creators-grid">
                 <div class="creator-card">
                     <div class="creator-img">
-                        <img src="adam (11).png" alt="BIZIMANA Adam">
+                        <img src="photo taken (5).jpg" alt="BIZIMANA Adam">
                     </div>
                     <h3 class="creator-name">BIZIMANA Adam</h3>
                     <p class="creator-role">Project Lead & Hardware Specialist</p>
@@ -582,6 +568,7 @@
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
                         <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="creator-card">
@@ -592,8 +579,8 @@
                     <p class="creator-role">Software Developer</p>
                     <p>Developer for website .</p>
                     <div class="creator-social">
-                        <!-- <a href="#"><i class="fab fa-twitter"></i></a> -->
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
                         <a href="#"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
@@ -647,6 +634,7 @@
                         <div>
                             <h3>Phone</h3>
                             <p>+250 796 235 081</p>
+                            <p>+250 732 086 652</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -668,7 +656,7 @@
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
@@ -712,7 +700,7 @@
                         </div>
                         <div>
                             <h3>Address</h3>
-                            <p>123 Innovation Drive, Tech City, TC 12345</p>
+                            <p>Kigali-Rwanda,Nyarugenge,karama</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -725,7 +713,7 @@
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
                                 <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                                <!-- <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a> -->
                             </div>
                         </div>
                     </div>
@@ -793,7 +781,16 @@
       </div>
     </div>
 </section>
-
+<!-- Schematic daigram-->
+<section id="components">
+    <div class="container" >
+        <div class="section-title">
+      <h2>Circuit Diagram </h2>
+        <h3>Circuit Diagram that shows how inputs, indicators, mechanical switches(relays), actuators, and display devices connected to Microcontroller and the protocol(MQTT)</h3>
+       <img src="schematic.png" alt="">
+      </div>
+    </div>
+</section>
 
     <!-- Components Section -->
     <section id="components">
@@ -1121,32 +1118,6 @@
     </section>
    <p></p>
   
-                <!-- <div class="contact-form">
-                    <h3>Send us a message</h3>
-                    <form id="messageForm">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message</button>
-                    </form> -->
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1156,16 +1127,21 @@
                         <i class="fas fa-home"></i>
                         <span>SmartHome IoT</span>
                     </div>
-                    <p>An innovative IoT-based home automation system that brings intelligence and convenience to your living space.</p>
+                    <p>An innovative IoT-based smart room control system that brings intelligence and convenience to your living space
+                        and to help you simplify and make work more easy than usual.</p>
                 </div>
                 <div class="footer-links">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#creators">Creators</a></li>
+                        <li><a href="#contact">Contact</a></li>
                         <li><a href="#components">Components</a></li>
                         <li><a href="#working">Working Principle</a></li>
+                        <li><a href="#blockdiagram">Block Diagram</a></li>
+                        <li><a href="#circuitdiagram">Circuit Diagram</a></li>
                         <li><a href="#code">Code</a></li>
-                        <li><a href="#creators">Creators</a></li>
+                        <li><a href="#behindthescene">Behind The scene</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -1175,6 +1151,9 @@
                         <li><a href="#">Source Code</a></li>
                         <li><a href="#">Tutorials</a></li>
                         <li><a href="#">Blog</a></li>
+                        <li><a href="#">Block Diagram</a></li>
+                        <li><a href="#">Circuit diagram</a></li>
+                        <li><a href="#">Behing The Scene</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -1184,6 +1163,7 @@
                         <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
                         <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
                         <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> Youtube</a></li>
                     </ul>
                 </div>
             </div>
