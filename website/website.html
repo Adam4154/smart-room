@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHome IoT - Home Automation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4c5271;
+            --secondary: #4b4976;
+            --accent: #a1b8bc;
+            --light: #0a0a0a;
+            --dark: #151616;
+            --success: #070808;
+            --warning: #5d523f;
+            --danger: #381010;
+            --gray: #132635;
+        }
+
+        body {
+            background-color: #1d2532;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: rgba(239, 232, 232, 0.2);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('setup.webp');
+            background-size: cover;
+            background-position: center;
+            color: rgb(236, 231, 231);
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Components Section */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .component-img {
+            height: 200px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .component-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .component-card:hover .component-img img {
+            transform: scale(1.05);
+        }
+
+        .component-content {
+            padding: 1.5rem;
+        }
+
+        .component-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Working Principle */
+        .principle-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .step-content ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .step-content li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* Code Section */
+        .code-container {
+            background: #2d2d2d;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-header {
+            background: #1e1e1e;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ccc;
+        }
+
+        .code-header .language {
+            font-weight: 600;
+        }
+
+        .code-content {
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .code-keyword {
+            color: #ff79c6;
+        }
+
+        .code-function {
+            color: #50fa7b;
+        }
+
+        .code-variable {
+            color: #8be9fd;
+        }
+
+        .code-string {
+            color: #f1fa8c;
+        }
+
+        .code-comment {
+            color: #6272a4;
+        }
+
+        /* Creators Section */
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .creator-card {
+            background: rgb(168, 141, 141);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(28, 28, 28, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .creator-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--light);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .creator-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .creator-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .creator-role {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .creator-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .creator-social a {
+            color: var(--gray);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .creator-social a:hover {
+            color: var(--primary);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+        .video1{
+            display: flex;
+ gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>SmartHome IoT</span>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#creators">Creators</a></li>
+                        <li><a href="#working">Working Principle</a></li>
+                        <li><a href="#components">Components</a></li>
+                        <li><a href="#code">Code</a></li>
+                         <li><a href="#behindthescene">Behind the scene</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Smart Home Automation System</h1>
+            <p>An IoT-based home automation solution using ESP32 microcontroller for intelligent control of lighting, climate, security, and more.</p>
+          <a href="#components" class="btn">Explore Project</a>
+        </div>
+    </section>
+ <!-- Creators Section -->
+    <section id="creators" style="background-color: #03080f;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Creators</h2>
+                <p>Meet the team behind this Smart Home Automation System</p>
+            </div>
+            <div class="creators-grid">
+                <div class="creator-card">
+                    <div class="creator-img">
+                        <img src="adam (11).png" alt="BIZIMANA Adam">
+                    </div>
+                    <h3 class="creator-name">BIZIMANA Adam</h3>
+                    <p class="creator-role">Project Lead & Hardware Specialist</p>
+                    <p>Responsible for system architecture and hardware integration.</p>
+                    <div class="creator-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="creator-card">
+                    <div class="creator-img">
+                        <img src="provi.PNG" alt="DUKUNDWANIMANA Bien Aime Providance">
+                    </div>
+                    <h3 class="creator-name">DUKUNDWANIMANA Bien Aime Providance</h3>
+                    <p class="creator-role">Software Developer</p>
+                    <p>Developer for website .</p>
+                    <div class="creator-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="creator-card">
+                    <div class="creator-img">
+                        <img src="vtlabs.png" alt="VT Labs Group">
+                    </div>
+                    <h3 class="creator-name">VT Labs Group</h3>
+                    <p class="creator-role">Site and workshop provider</p>
+                    <p>Course site and site management.</p>
+                    <div class="creator-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- Working Principle Section -->
+    <section id="working" style="background-color: #6b9ad1;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Working Principle</h2>
+                <p>How our Smart Home Automation System operates</p>
+            </div>
+            <div class="principle-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Sensor Data Collection</h3>
+                        <p>The system continuously monitors environmental conditions using DHT11 (temperature/humidity) and LDR (light) sensors. This data is processed by the ESP32 microcontroller.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Automated Decision Making</h3>
+                        <p>Based on predefined thresholds, the system automatically controls devices:</p>
+                        <ul>
+                            <li>Lights turn ON when LDR value < 950, OFF when > 1050</li>
+                            <li>Fan activates when temperature exceeds 28°C</li>
+                            <li>Windows open when light level > 2000 lux</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Security System Operation</h3>
+                        <p>The keypad allows users to enter a PIN (default: 1234) to unlock the door. Correct PIN activates the solenoid lock and status LEDs, while incorrect attempts trigger the buzzer.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>MQTT Communication</h3>
+                        <p>The system connects to Adafruit IO via MQTT protocol to publish sensor data and receive control commands, enabling remote monitoring and control from anywhere.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Manual Override</h3>
+                        <p>All automated functions can be manually controlled either through physical interfaces (keypad, touch sensor) or remotely via MQTT commands to Adafruit IO.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="components">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Components</h2>
+                <p>Hardware and software components used in our Smart Home Automation System</p>
+            </div>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="esp32.webp" alt="ESP32 Microcontroller">
+                    </div>
+                    <div class="component-content">
+                        <h3>ESP32 Microcontroller</h3>
+                        <p>The brain of our system, handling all sensor inputs, processing, and device control with WiFi and Bluetooth capabilities.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="dht11.webp" alt="DHT11 Sensor">
+                    </div>
+                    <div class="component-content">
+                        <h3>DHT11 Sensor</h3>
+                        <p>Measures temperature and humidity for climate control automation and monitoring.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="ldr.webp" alt="LDR Light Sensor">
+                    </div>
+                    <div class="component-content">
+                        <h3>LDR Light Sensor</h3>
+                        <p>Detects ambient light levels for automatic lighting control based on environmental conditions.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="keypad.webp" alt="3x4 Matrix Keypad">
+                    </div>
+                    <div class="component-content">
+                        <h3>4x4 Matrix Keypad</h3>
+                        <p>Provides secure access control with password-based door unlocking functionality.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="relay.webp" alt="Relay Module">
+                    </div>
+                    <div class="component-content">
+                        <h3>Relay Modules</h3>
+                        <p>Controls high-power devices like lights, fans, and solenoid locks safely with low-voltage signals.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="servo.webp" alt="Servo Motor">
+                    </div>
+                    <div class="component-content">
+                        <h3>Servo Motor</h3>
+                        <p>Controls window opening and closing based on light levels and automation rules.</p>
+                    </div>
+                </div>
+                <!-- New Components Added -->
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="lock.webp" alt="Solenoid Lock">
+                    </div>
+                    <div class="component-content">
+                        <h3>Solenoid Lock</h3>
+                        <p>Electromagnetic lock for door security system, activated when correct password is entered via keypad.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="fan.webp" alt="12V DC Fan">
+                    </div>
+                    <div class="component-content">
+                        <h3>12V DC Fan</h3>
+                        <p>Cooling fan controlled by relay module, automatically turns on when temperature exceeds 28°C for climate control.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="lamp.webp" alt="Lamp">
+                    </div>
+                    <div class="component-content">
+                        <h3>Lamp</h3>
+                        <p>Lighting device controlled by relay module, automatically turns on/off based on ambient light levels detected by LDR sensor.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="jumper.webp" alt="Jumper Wires">
+                    </div>
+                    <div class="component-content">
+                        <h3>Jumper Wires</h3>
+                        <p>Connection wires used for interconnecting all components on the breadboard and establishing electrical connections between ESP32 and peripherals.</p>
+                    </div>
+                </div>
+                <!-- <div class="component-card">
+                    <div class="component-img">
+                        <img src="touch sensor.webp" alt="Touch Sensor">
+                    </div>
+                    <div class="component-content">
+                        <h3>Touch Sensor</h3>
+                        <p>Capacitive touch sensor used for additional security confirmation and manual control override in the system.</p>
+                    </div>
+                </div> -->
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="buzzer.webp" alt="Buzzer">
+                    </div>
+                    <div class="component-content">
+                        <h3>Buzzer</h3>
+                        <p>Audio alert device that sounds when incorrect password is entered or for system notifications and alarms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Code Section -->
+    <section id="code">
+        <div class="container">
+            <div class="section-title">
+                <h2>Code Implementation</h2>
+                <p>Key logical codes used in our Smart Home Automation System</p>
+            </div>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="language">Arduino C++</span>
+                    <span>main.ino</span>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="code-comment">// Automatic lighting control based on LDR sensor</span>
+<span class="code-keyword">void</span> <span class="code-function">handleLighting</span>() {
+    <span class="code-keyword">if</span> (!autoLighting) <span class="code-keyword">return</span>;
+
+    <span class="code-keyword">int</span> <span class="code-variable">lightLevel</span> = analogRead(LDR_PIN);
+
+    <span class="code-keyword">if</span> (lightLevel < LIGHT_ON_THRESHOLD) {
+        <span class="code-keyword">if</span> (!lampState) {
+            digitalWrite(RELAY1_PIN, HIGH);
+            lampState = <span class="code-keyword">true</span>;
+            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned ON (dark)"</span>);
+        }
+    } <span class="code-keyword">else</span> <span class="code-keyword">if</span> (lightLevel > LIGHT_OFF_THRESHOLD) {
+        <span class="code-keyword">if</span> (lampState) {
+            digitalWrite(RELAY1_PIN, LOW);
+            lampState = <span class="code-keyword">false</span>;
+            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned OFF (bright)"</span>);
+        }
+    }
+}
+
+<span class="code-comment">// Climate control based on temperature</span>
+<span class="code-keyword">void</span> <span class="code-function">handleClimate</span>() {
+    <span class="code-keyword">if</span> (!autoClimate) <span class="code-keyword">return</span>;
+    
+    <span class="code-keyword">float</span> <span class="code-variable">temp</span> = dht11.readTemperature();
+    <span class="code-keyword">if</span> (temp == -1) {
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Failed to read temperature"</span>);
+        <span class="code-keyword">return</span>;
+    }
+    
+    <span class="code-keyword">if</span> (temp > 28) {
+        digitalWrite(RELAY2_PIN, HIGH);
+    } <span class="code-keyword">else</span> {
+        digitalWrite(RELAY2_PIN, LOW);
+    }
+}
+
+<span class="code-comment">// Security system with keypad</span>
+<span class="code-keyword">void</span> <span class="code-function">checkPassword</span>() {
+    Serial.<span class="code-function">println</span>(<span class="code-string">"Checking password: "</span> + input);
+    
+    <span class="code-keyword">if</span> (input == passwordCode) {
+        digitalWrite(UNLOCK_LED, HIGH);
+        digitalWrite(LOCK_LED, LOW);
+        digitalWrite(RELAY3_PIN, HIGH); <span class="code-comment">// Unlock solenoid</span>
+        digitalWrite(BUZZER_PIN, LOW);
+        doorLocked = <span class="code-keyword">false</span>;
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Access granted"</span>);
+    } <span class="code-keyword">else</span> {
+        digitalWrite(BUZZER_PIN, HIGH);
+        <span class="code-function">delay</span>(1000);
+        digitalWrite(BUZZER_PIN, LOW);
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Access denied"</span>);
+    }
+    input = <span class="code-string">""</span>;
+}
+
+<span class="code-comment">// MQTT connection handler</span>
+<span class="code-keyword">void</span> <span class="code-function">MQTT_connect</span>() {
+    <span class="code-keyword">int8_t</span> <span class="code-variable">ret</span>;
+
+    <span class="code-keyword">if</span> (mqtt.<span class="code-function">connected</span>()) {
+        <span class="code-keyword">return</span>;
+    }
+
+    Serial.<span class="code-function">print</span>(<span class="code-string">"Connecting to MQTT... "</span>);
+
+    <span class="code-keyword">uint8_t</span> <span class="code-variable">retries</span> = 3;
+    <span class="code-keyword">while</span> ((ret = mqtt.<span class="code-function">connect</span>()) != 0) { 
+        Serial.<span class="code-function">println</span>(mqtt.<span class="code-function">connectErrorString</span>(ret));
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Retrying MQTT connection in 5 seconds..."</span>);
+        mqtt.<span class="code-function">disconnect</span>();
+        <span class="code-function">delay</span>(5000); 
+        retries--;
+        <span class="code-keyword">if</span> (retries == 0) {
+            Serial.<span class="code-function">println</span>(<span class="code-string">"MQTT connection failed permanently!"</span>);
+            <span class="code-keyword">return</span>;
+        }
+    }
+    Serial.<span class="code-function">println</span>(<span class="code-string">"MQTT Connected!"</span>);
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--behind the scene-->
+    <section id="behindthescene">
+      <div class="container">
+        <div class="section-title">
+          <h2>Behind The scene</h2>
+          <p>Starting from build up, failures, and achievement</p>
+        </div>
+        <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="before.jpg" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Setting up the hardware(RIGHT SIDE)</h3>
+                        <p>Connecting Hardware before embedding the firmware.</p>
+                    </div>
+                </div>
+                 <div class="component-card">
+                    <div class="component-img">
+                        <img src="before (2).jpg" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Setting up the hardware(fan side)</h3>
+                        <p>Connecting Hardware before embedding the firmware.</p>
+                    </div>
+                </div>
+                 <div class="component-card">
+                    <div class="component-img">
+                        <img src="top.jpg" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Setting up the hardware(TOP SIDE)</h3>
+                        <p>Connecting Hardware before embedding the firmware.</p>
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="component-img">
+                        <img src="Screenshot (11).png" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Codes in arduino IDE </h3>
+                        <p>Codes in arduino before compiling and uploading.</p>
+                    </div>
+                </div>  
+                  <div class="component-card">
+                    <div class="component-img">
+                        <img src="Screenshot (10).png" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Uploading Done</h3>
+                        <p>compiling and uploading the arduino codes into microcontroller.</p>
+                    </div>
+                </div>
+                  <div class="component-card">
+                    <div class="component-img">
+                        <img src="dashboard.PNG" alt="">
+                    </div>
+                    <div class="component-content">
+                        <h3>Adafruit IO dashboardh3>
+                        <p>Controlling system on the dashboard as IOT.</p>
+                    </div>
+                </div>
+            </div>
+             
+                <div  class="video1">
+                 <div>
+                     <h1>Videos of Project logical codes embedding</h1>
+               
+                 <div>
+                    
+                    <h2>Uploading failed</h2>
+                     <video width="480" height="360" controls>
+                     <source src="error occured.mp4" type="video/mp4">
+                     </video>
+                     <h4>Errors were occured while we were uploading in microcontroller</h4>
+                </div>
+                <div>
+                    <h2>Uploading Done</h2>
+                     <video width="480" height="360" controls>
+                     <source src="uploading done.mp4" type="video/mp4">
+                     </video>
+                     <h4>Uploading Arduino codes in ESP32 microcontroller was successful done</h4>
+                </div>
+            </div> 
+    </section>
+   <p></p>
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch with our team for more information</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                         <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>Name</h3>
+                            <p>BIZIMANA Adam</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>kingnur4154@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+250 796 235 081</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Address</h3>
+                            <p>Kigali-Rwanda</Kigali-Rwanda></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Social Media</h3>
+                            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--2nd contact-->
+                
+                  <div class="contact-container">
+                     
+                <div class="contact-info">
+                          <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>Name</h3>
+                            <p>DUKUNDWANIMANA Bien Aimee Providence</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    
+                        <div>
+                            <h3>Email</h3>
+                            <p>prvaimee6@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+250 792 053 499</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Address</h3>
+                            <p>123 Innovation Drive, Tech City, TC 12345</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Social Media</h3>
+                            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="contact-form">
+                    <h3>Send us a message</h3>
+                    <form id="messageForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-home"></i>
+                        <span>SmartHome IoT</span>
+                    </div>
+                    <p>An innovative IoT-based home automation system that brings intelligence and convenience to your living space.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#components">Components</a></li>
+                        <li><a href="#working">Working Principle</a></li>
+                        <li><a href="#code">Code</a></li>
+                        <li><a href="#creators">Creators</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Source Code</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Connect With Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 SmartHome IoT. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu after clicking
+                document.querySelector('nav ul').classList.remove('active');
+            });
+        });
+
+        // Form submission
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

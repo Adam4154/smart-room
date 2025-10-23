@@ -1,0 +1,453 @@
+#include <LCD_I2C.h>
+#include <WiFi.h>
+#include <Adafruit_MQTT.h>
+#include <Adafruit_MQTT_Client.h>
+#include <Keypad.h>
+#include <DHT11.h>
+#include <ESP32Servo.h>
+
+// Pin definitions
+#define LDR_PIN 35
+#define RELAY1_PIN 16
+#define RELAY2_PIN 17
+#define RELAY3_PIN 18
+#define BUZZER_PIN 19
+#define GREEN_LED 32
+#define RED_LED 33
+#define WINDOW_SERVO_PIN 5
+#define DHT11_PIN 15
+
+// Initialize sensors
+DHT11 dht11(DHT11_PIN);
+LCD_I2C lcd(0x27, 16, 2); // Try 0x3F if 0x27 doesn't work
+
+// WiFi credentials
+const char* ssid = "king nur wifi";
+const char* password = "987654321";
+
+// Adafruit IO configuration
+#define AIO_SERVER "io.adafruit.com"
+#define AIO_SERVERPORT 1883
+
+
+
+// Servo
+Servo windowServo;
+
+// Keypad configuration
+const byte ROWS = 4;
+const byte COLS = 3;
+char keys[ROWS][COLS] = {
+  {'1','2','3'},
+  {'4','5','6'},
+  {'7','8','9'},
+  {'*','0','#'}
+};
+byte rowPins[ROWS] = {13, 12, 14, 27};
+byte colPins[COLS] = {26, 25, 21};
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+// WiFi and MQTT clients
+WiFiClient client;
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, IO_USERNAME);
+
+// Adafruit IO Feeds
+Adafruit_MQTT_Publish temperatureFeed = Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/temperature");
+Adafruit_MQTT_Publish humidityFeed = Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/humidity");
+Adafruit_MQTT_Publish ldrFeed = Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/ldr-values");
+Adafruit_MQTT_Publish deviceStatusFeed = Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/device-status");
+Adafruit_MQTT_Publish systemAlertsFeed = Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/system-alerts");
+
+// Control feeds
+Adafruit_MQTT_Subscribe lightControl = Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/light-control");
+Adafruit_MQTT_Subscribe fanControl = Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/fan-control");
+Adafruit_MQTT_Subscribe doorControl = Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/door-control");
+Adafruit_MQTT_Subscribe windowControl = Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/window-control");
+
+// Global variables
+String input = "";
+String passwordCode = "1234";
+bool doorLocked = true;
+bool manualLightControl = false;
+bool manualFanControl = false;
+bool manualWindowControl = false;
+
+// Configurable thresholds
+const int LIGHT_ON_THRESHOLD = 950;
+const int LIGHT_OFF_THRESHOLD = 1050;
+const int TEMP_FAN_ON = 28;
+
+// Timing variables
+unsigned long previousPublishTime = 0;
+const long publishInterval = 5000;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  
+  Serial.println("Starting Smart Home System...");
+
+  // Initialize LCD - FIXED: No error checking for begin()
+  lcd.begin();
+  lcd.backlight();
+  lcd.print("Initializing...");
+
+  // Initialize pin modes
+  pinMode(LDR_PIN, INPUT);
+  pinMode(RELAY1_PIN, OUTPUT);
+  pinMode(RELAY2_PIN, OUTPUT);
+  pinMode(RELAY3_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
+
+  // Initialize servos
+  windowServo.attach(WINDOW_SERVO_PIN);
+  windowServo.write(0);
+
+  // Initialize to safe state
+  digitalWrite(RELAY1_PIN, LOW);
+  digitalWrite(RELAY2_PIN, LOW);
+  digitalWrite(RELAY3_PIN, HIGH); // Door locked by default
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(BUZZER_PIN, LOW);
+
+  // Connect to WiFi
+  lcd.clear();
+  lcd.print("Connecting WiFi");
+  Serial.print("Connecting to WiFi: ");
+  Serial.println(ssid);
+  
+  WiFi.begin(ssid, password);
+  
+  int wifiTimeout = 0;
+  while (WiFi.status() != WL_CONNECTED && wifiTimeout < 20) {
+    delay(500);
+    Serial.print(".");
+    wifiTimeout++;
+  }
+  
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("\nWiFi connection FAILED!");
+    lcd.clear();
+    lcd.print("WiFi FAILED");
+    lcd.setCursor(0, 1);
+    lcd.print("Check credentials");
+    return;
+  }
+  
+  Serial.println("\nWiFi connected!");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  lcd.clear();
+  lcd.print("WiFi connected!");
+  delay(2000);
+
+  // Setup MQTT subscriptions
+  mqtt.subscribe(&lightControl);
+  mqtt.subscribe(&fanControl);
+  mqtt.subscribe(&doorControl);
+  mqtt.subscribe(&windowControl);
+
+  // Connect to MQTT
+  MQTT_connect();
+
+  lcd.clear();
+  lcd.print("System Ready");
+  lcd.setCursor(0, 1);
+  lcd.print("Enter Password:");
+}
+
+float readTemperature() {
+  float temperature = dht11.readTemperature();
+  if (temperature == -1) {
+    Serial.println("DHT11 read error!");
+    return -999;
+  }
+  return temperature;
+}
+
+float readHumidity() {
+  float humidity = dht11.readHumidity();
+  if (humidity == -1) {
+    Serial.println("DHT11 read error!");
+    return -999;
+  }
+  return humidity;
+}
+
+void MQTT_connect() {
+  Serial.print("Connecting to MQTT... ");
+  
+  if (mqtt.connected()) {
+    Serial.println("Already connected");
+    return;
+  }
+
+  int8_t ret;
+  int retries = 3;
+  
+  while ((ret = mqtt.connect()) != 0 && retries > 0) {
+    Serial.println(mqtt.connectErrorString(ret));
+    Serial.println("Retrying in 5s...");
+    mqtt.disconnect();
+    delay(5000);
+    retries--;
+  }
+  
+  if (ret == 0) {
+    Serial.println("MQTT Connected!");
+  } else {
+    Serial.println("MQTT connection failed!");
+  }
+}
+
+void publishCombinedStatus() {
+  char status[60];
+  
+  snprintf(status, sizeof(status), "L:%s%s,F:%s%s,D:%s,W:%s%s",
+           digitalRead(RELAY1_PIN) ? "ON" : "OFF",
+           manualLightControl ? "(M)" : "",
+           digitalRead(RELAY2_PIN) ? "ON" : "OFF", 
+           manualFanControl ? "(M)" : "",
+           doorLocked ? "LOCK" : "OPEN",
+           windowServo.read() > 45 ? "CLOSE" : "OPEN",
+           manualWindowControl ? "(M)" : "");
+
+  if (deviceStatusFeed.publish(status)) {
+    Serial.print("Status: ");
+    Serial.println(status);
+  }
+}
+
+void publishSensorData() {
+  float temp = readTemperature();
+  float hum = readHumidity();
+  int ldrValues = analogRead(LDR_PIN);
+  
+  // Only publish valid readings
+  if (temp > -100) {
+    temperatureFeed.publish(temp);
+    Serial.print("Temp: "); Serial.println(temp);
+  }
+  
+  if (hum > -100) {
+    humidityFeed.publish(hum);
+    Serial.print("Hum: "); Serial.println(hum);
+  }
+  
+  ldrFeed.publish((int32_t)ldrValues);
+  Serial.print("LDR: "); Serial.println(ldrValues);
+  
+  publishCombinedStatus();
+}
+
+void handleMQTTMessages() {
+  Adafruit_MQTT_Subscribe *subscription;
+  while ((subscription = mqtt.readSubscription(500))) {
+    
+    if (subscription == &lightControl) {
+      String message = (char *)lightControl.lastread;
+      message.trim();
+      Serial.print("Light control: "); Serial.println(message);
+      
+      if (message == "ON") {
+        digitalWrite(RELAY1_PIN, HIGH);
+        manualLightControl = true;
+        systemAlertsFeed.publish("Light ON");
+      } else if (message == "OFF") {
+        digitalWrite(RELAY1_PIN, LOW); 
+        manualLightControl = true;
+        systemAlertsFeed.publish("Light OFF");
+      } else if (message == "AUTO") {
+        manualLightControl = false;
+        systemAlertsFeed.publish("Light AUTO");
+      }
+      publishCombinedStatus();
+    }
+    
+    else if (subscription == &fanControl) {
+      String message = (char *)fanControl.lastread;
+      message.trim();
+      Serial.print("Fan control: "); Serial.println(message);
+      
+      if (message == "ON") {
+        digitalWrite(RELAY2_PIN, HIGH);
+        manualFanControl = true;
+        systemAlertsFeed.publish("Fan ON");
+      } else if (message == "OFF") {
+        digitalWrite(RELAY2_PIN, LOW);
+        manualFanControl = true;
+        systemAlertsFeed.publish("Fan OFF");
+      } else if (message == "AUTO") {
+        manualFanControl = false;
+        systemAlertsFeed.publish("Fan AUTO");
+      }
+      publishCombinedStatus();
+    }
+    
+    else if (subscription == &doorControl) {
+      String message = (char *)doorControl.lastread;
+      message.trim();
+      Serial.print("Door control: "); Serial.println(message);
+      
+      if (message == "UNLOCK" && doorLocked) {
+        unlockDoor();
+        systemAlertsFeed.publish("Door UNLOCKED");
+      } else if (message == "LOCK" && !doorLocked) {
+        lockDoor();
+        systemAlertsFeed.publish("Door LOCKED");
+      }
+    }
+    
+    else if (subscription == &windowControl) {
+      String message = (char *)windowControl.lastread;
+      message.trim();
+      Serial.print("Window control: "); Serial.println(message);
+      
+      if (message == "OPEN") {
+        windowServo.write(0);
+        manualWindowControl = true;
+        systemAlertsFeed.publish("Window OPEN");
+      } else if (message == "CLOSE") {
+        windowServo.write(90);
+        manualWindowControl = true;
+        systemAlertsFeed.publish("Window CLOSE");
+      } else if (message == "AUTO") {
+        manualWindowControl = false;
+        systemAlertsFeed.publish("Window AUTO");
+      }
+      publishCombinedStatus();
+    }
+  }
+}
+
+void unlockDoor() {
+  digitalWrite(RELAY3_PIN, LOW);
+  digitalWrite(GREEN_LED, HIGH);
+  digitalWrite(RED_LED, LOW);
+  doorLocked = false;
+  
+  // Audio feedback
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(200);
+  digitalWrite(BUZZER_PIN, LOW);
+  
+  lcd.clear();
+  lcd.print("Door UNLOCKED");
+  lcd.setCursor(0, 1);
+  lcd.print("Press # to lock");
+  
+  publishCombinedStatus();
+}
+
+void lockDoor() {
+  digitalWrite(RELAY3_PIN, HIGH);
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(RED_LED, HIGH);
+  doorLocked = true;
+  
+  lcd.clear();
+  lcd.print("Door LOCKED");
+  lcd.setCursor(0, 1);
+  lcd.print("Enter Password:");
+  
+  publishCombinedStatus();
+}
+
+void handleKeypad() {
+  char key = keypad.getKey();
+  
+  if (key) {
+    Serial.print("Key: "); Serial.println(key);
+    
+    if (key == '#') {
+      if (input == passwordCode) {
+        if (doorLocked) {
+          unlockDoor();
+          systemAlertsFeed.publish("Unlocked by keypad");
+        } else {
+          lockDoor();
+          systemAlertsFeed.publish("Locked by keypad");
+        }
+      } else {
+        // Wrong password
+        for(int i=0; i<2; i++) {
+          digitalWrite(BUZZER_PIN, HIGH);
+          delay(150);
+          digitalWrite(BUZZER_PIN, LOW);
+          delay(100);
+        }
+        systemAlertsFeed.publish("Wrong password");
+      }
+      input = "";
+      lcd.clear();
+      lcd.print(doorLocked ? "Enter Password:" : "Press # to lock");
+      
+    } else if (key == '*') {
+      input = "";
+      lcd.clear();
+      lcd.print("Input cleared");
+      delay(1000);
+      lcd.clear();
+      lcd.print("Enter Password:");
+      
+    } else if (input.length() < 6) {
+      input += key;
+      lcd.clear();
+      lcd.print("Password: ");
+      for(int i=0; i<input.length(); i++) lcd.print('*');
+    }
+  }
+}
+
+void automaticControl() {
+  static unsigned long lastAutoControl = 0;
+  if (millis() - lastAutoControl < 2000) return;
+  lastAutoControl = millis();
+
+  int ldrValues = analogRead(LDR_PIN);
+  float temp = readTemperature();
+  
+  // Light and window auto control
+  if (!manualLightControl && !manualWindowControl) {
+    if (ldrValues > LIGHT_ON_THRESHOLD) {
+      digitalWrite(RELAY1_PIN, HIGH);
+      windowServo.write(90);
+    } else if (ldrValues < LIGHT_OFF_THRESHOLD) {
+      digitalWrite(RELAY1_PIN, LOW);
+      windowServo.write(0);
+    }
+  }
+  
+  // Fan auto control
+  if (!manualFanControl && temp > -100 && temp >= TEMP_FAN_ON) {
+    digitalWrite(RELAY2_PIN, HIGH);
+  } else if (!manualFanControl) {
+    digitalWrite(RELAY2_PIN, LOW);
+  }
+}
+
+void loop() {
+  // Maintain connections
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi disconnected!");
+    delay(1000);
+    return;
+  }
+  
+  MQTT_connect();
+  handleMQTTMessages();
+  handleKeypad();
+  automaticControl();
+  
+  // Publish data periodically
+  if (millis() - previousPublishTime > publishInterval) {
+    publishSensorData();
+    previousPublishTime = millis();
+  }
+  
+  delay(50);
+}
