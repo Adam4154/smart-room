@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Room Control system - Home Automation System</title>
+    <title>Smart Room Control System - IoT Home Automation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -352,21 +352,71 @@
             font-weight: 500;
         }
 
-        .creator-social {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+        /* Progress Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .creator-social a {
-            color: var(--gray);
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
         }
 
-        .creator-social a:hover {
-            color: var(--primary);
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: -10px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
         }
 
         /* Contact Section */
@@ -489,6 +539,70 @@
             color: #ccc;
         }
 
+        /* Project Status */
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .status-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .badge-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-inprogress {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-planned {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .video1{
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .mobile-menu-btn {
@@ -519,30 +633,63 @@
             .hero p {
                 font-size: 1rem;
             }
-        }
-        .video1{
-            display: flex;
- gap: 10px;
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 21px;
+            }
+
+            .video1 {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
-<body><center>
+<body>
     <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-home"></i>
-                    <span>Smart Room control system(IOT Project)</span>
+                    <span>Smart Room Control System</span>
                 </div>
-            </div>
+                <!-- <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#project">Project</a></li>
+                        <li><a href="#working">How It Works</a></li>
+                        <li><a href="#components">Components</a></li>
+                        <li><a href="#progress">Progress</a></li>
+                        <li><a href="#status">Status</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div> -->
         </div>
     </header>
-</center>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <h1>Smart Room Control System</h1>
             <p>A smart room control system is basing in automatic lighting and automatic window opening and 
                 closing according to the light intensity commanded by Sensor information.
                  Climate conditioning through temperature range that allow fan on and off 
@@ -550,14 +697,14 @@
                   system for room security. 
                  This controlled remotely one Adafruit IO website for
                  IoT Project. Behind the WiFi along side MQTT(protocol) with Adafruit.</p>
-
+            <!-- <a href="#project" class="btn">Learn More</a> -->
         </div>
     </section>
- <!-- Creators Section -->
-    <section id="creators" style="background-color: #9facc0;">
+   <!-- Team Section -->
+    <section id="team" style="background-color: #9facc0;">
         <div class="container">
             <div class="section-title">
-                <h2>Project Creators and Supporters</h2>
+                <h2>Project Team</h2>
                 <p>Meet the team behind this Smart Room Control System</p>
             </div>
             <div class="creators-grid">
@@ -568,11 +715,6 @@
                     <h3 class="creator-name">BIZIMANA Adam</h3>
                     <p class="creator-role">Project Lead & Hardware Specialist</p>
                     <p>Responsible for system architecture and hardware integration.</p>
-                    <div class="creator-social">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
                 </div>
                 <div class="creator-card">
                     <div class="creator-img">
@@ -580,11 +722,7 @@
                     </div>
                     <h3 class="creator-name">DUKUNDWANIMANA Bien Aime Providance</h3>
                     <p class="creator-role">Software Developer</p>
-                    <p>Developer for website .</p>
-                    <div class="creator-social">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
+                    <p>Developer for website and system software.</p>
                 </div>
                 <div class="creator-card">
                     <div class="creator-img">
@@ -592,13 +730,13 @@
                     </div>
                     <h3 class="creator-name">VT Labs Group</h3>
                     <p class="creator-role">Site and workshop provider</p>
-                    <p>Course site, site management and project requierements .</p>
-                    <div class="creator-social">
-                    </div>
+                    <p>Course site, site management and project requirements.</p>
                 </div>
             </div>
         </div>
-          <!-- Contact Section -->
+    </section>
+
+    <!-- Contact Section -->
     <section id="contact">
         <div class="container">
             <div class="section-title">
@@ -608,32 +746,26 @@
             
             <div class="contact-container">
                 <div class="contact-info">
-                         <div class="contact-item">
+                    <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-user"></i>
                         </div>
                         <div>
-                            <h3>Name</h3>
-                            <p>BIZIMANA Adam</p>
+                            <h3>BIZIMANA Adam</h3>
+                            <p>Project Lead</p>
+                            <p>Email: kingnur4154@gmail.com</p>
+                            <p>Phone: +250 796 235 081</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fas fa-user"></i>
                         </div>
                         <div>
-                            <h3>Email</h3>
-                            <p>kingnur4154@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <h3>Phone</h3>
-                            <p>+250 796 235 081</p>
-                            <p>+250 732 086 652</p>
+                            <h3>DUKUNDWANIMANA Bien Aimee Providence</h3>
+                            <p>Software Developer</p>
+                            <p>Email: prvaimee6@gmail.com</p>
+                            <p>Phone: +250 792 053 499</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -642,96 +774,65 @@
                         </div>
                         <div>
                             <h3>Address</h3>
-                            <p>Kigali-Rwanda</Kigali-Rwanda></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-share-alt"></i>
-                        </div>
-                        <div>
-                            <h3>Social Media</h3>
-                            <div style="display: flex; gap: 15px; margin-top: 10px;">
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-youtube"></i></a>
-                            </div>
+                            <p>Kigali, Rwanda</p>
                         </div>
                     </div>
                 </div>
-                <!--2nd contact-->
-                
-                  <div class="contact-container">
-                     
-                <div class="contact-info">
-                          <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div>
-                            <h3>Name</h3>
-                            <p>DUKUNDWANIMANA Bien Aimee Providence</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                    
-                        <div>
-                            <h3>Email</h3>
-                            <p>prvaimee6@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <h3>Phone</h3>
-                            <p>+250 792 053 499</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <h3>Address</h3>
-                            <p>Kigali-Rwanda,Nyarugenge,karama</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-share-alt"></i>
-                        </div>
-                        <div>
-                            <h3>Social Media</h3>
-                            <div style="display: flex; gap: 15px; margin-top: 10px;">
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
-                                <a href="#" style="color: var(--primary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+             </div>
+        </div>
     </section>
-     <!-- Working Principle Section -->
+    <!-- Project Introduction Section -->
+    <section id="project" style="background-color: #9facc0;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Introduction</h2>
+                <p>A comprehensive overview of our Smart Room Control System</p>
+            </div>
+            <div class="principle-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>What is the Smart Room Control System?</h3>
+                        <p>Our Smart Room Control System is an Internet of Things (IoT) solution that automates various room functions including lighting, climate control, window operation, and security. The system uses sensors to monitor environmental conditions and automatically adjusts room settings for optimal comfort and energy efficiency.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li><strong>Automatic Lighting:</strong> Lights turn on/off based on ambient light levels</li>
+                            <li><strong>Climate Control:</strong> Fan activates when temperature exceeds set thresholds</li>
+                            <li><strong>Window Automation:</strong> Windows open/close based on light intensity</li>
+                            <li><strong>Security System:</strong> Password-protected door access with status indicators</li>
+                            <li><strong>Remote Monitoring:</strong> Real-time control and monitoring via Adafruit IO dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Technology Stack</h3>
+                        <p>The system is built using ESP32 microcontroller, various sensors (DHT11, LDR), actuators (relays, servo motors), and communicates via MQTT protocol with Adafruit IO for remote access and control.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Working Principle Section -->
     <section id="working" style="background-color: #94a4b6;">
         <div class="container">
             <div class="section-title">
-                <h2>Working Principle</h2>
-                <p>How our Smart Home Automation System operates</p>
+                <h2>Working Principle & Technical Explanation</h2>
+                <p>How our Smart Room Control System operates</p>
             </div>
             <div class="principle-steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>Sensor Data Collection</h3>
-                        <p>The system continuously monitors environmental conditions using DHT11 (temperature/humidity) and LDR (light) sensors. 
-                            This data is processed by the ESP32 microcontroller as the brain of the system to recieve,
-                             processe and send the command to control actuators.</p>
+                        <p>The system continuously monitors environmental conditions using DHT11 (temperature/humidity) and LDR (light) sensors. This data is processed by the ESP32 microcontroller which serves as the central processing unit, receiving, processing, and sending commands to control actuators.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -741,8 +842,8 @@
                         <p>Based on predefined thresholds, the system automatically controls devices:</p>
                         <ul>
                             <li>Lights turn ON when LDR value < 950, OFF when > 1050</li>
-                            <li>Fan activates when temperature exceeds the maximum temperature</li>
-                            <li>Windows open when light level > 2000 lux when is dark it closed</li>
+                            <li>Fan activates when temperature exceeds the maximum temperature threshold</li>
+                            <li>Windows open when light level > 2000 lux and close when dark</li>
                         </ul>
                     </div>
                 </div>
@@ -750,16 +851,14 @@
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3>Security System Operation</h3>
-                        <p>The keypad allows users to enter a PIN had been set to unlock the door. Correct PIN activates the solenoid lock and status LEDs,
-                             while incorrect attempts trigger the buzzer and status of locked led.</p>
+                        <p>The keypad allows users to enter a pre-set PIN to unlock the door. Correct PIN activates the solenoid lock and status LEDs, while incorrect attempts trigger the buzzer and locked status LED.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h3>MQTT Communication</h3>
-                        <p>The system connects to Adafruit IO via MQTT protocol to publish sensor data and receive control commands as dashboard,
-                             enabling remote monitoring and control from anywhere when is needed.</p>
+                        <p>The system connects to Adafruit IO via MQTT protocol to publish sensor data and receive control commands through the dashboard, enabling remote monitoring and control from anywhere.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -771,6 +870,9 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- System Architecture Section -->
     </section>
     <!--Block diagram-->
 <section id="components">
@@ -796,7 +898,7 @@
 </section>
 
     <!-- Components Section -->
-    <section id="components">
+   <section id="components">
         <div class="container">
             <div class="section-title">
                 <h2>Project Components</h2>
@@ -957,108 +1059,130 @@
             </div>
         </div>
     </section>
-
-    <!-- Code Section -->
-    <section id="code">
+    <!-- Progress Documentation Section -->
+    <section id="progress" style="background-color: #9facc0;">
         <div class="container">
             <div class="section-title">
-                <h2>Code Implementation</h2>
-                <p>Key logical codes used in our Smart Home Automation System</p>
+                <h2>Documentation of Work Progress</h2>
+                <p>Our journey from concept to implementation</p>
             </div>
             
-            <div class="code-container">
-                <div class="code-header">
-                    <span class="language">Arduino C++</span>
-                    <span>main.ino</span>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Project Planning & Research</h3>
+                        <p>Defined project scope, researched components, and created initial system architecture.</p>
+                        <p><strong>Duration:</strong> Week 1</p>
+                    </div>
                 </div>
-                <div class="code-content">
-                    <pre><code><span class="code-comment">// Automatic lighting control based on LDR sensor</span>
-<span class="code-keyword">void</span> <span class="code-function">handleLighting</span>() {
-    <span class="code-keyword">if</span> (!autoLighting) <span class="code-keyword">return</span>;
-
-    <span class="code-keyword">int</span> <span class="code-variable">lightLevel</span> = analogRead(LDR_PIN);
-
-    <span class="code-keyword">if</span> (lightLevel < LIGHT_ON_THRESHOLD) {
-        <span class="code-keyword">if</span> (!lampState) {
-            digitalWrite(RELAY1_PIN, HIGH);
-            lampState = <span class="code-keyword">true</span>;
-            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned ON (dark)"</span>);
-        }
-    } <span class="code-keyword">else</span> <span class="code-keyword">if</span> (lightLevel > LIGHT_OFF_THRESHOLD) {
-        <span class="code-keyword">if</span> (lampState) {
-            digitalWrite(RELAY1_PIN, LOW);
-            lampState = <span class="code-keyword">false</span>;
-            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned OFF (bright)"</span>);
-        }
-    }
-}
-
-<span class="code-comment">// Climate control based on temperature</span>
-<span class="code-keyword">void</span> <span class="code-function">handleClimate</span>() {
-    <span class="code-keyword">if</span> (!autoClimate) <span class="code-keyword">return</span>;
-    
-    <span class="code-keyword">float</span> <span class="code-variable">temp</span> = dht11.readTemperature();
-    <span class="code-keyword">if</span> (temp == -1) {
-        Serial.<span class="code-function">println</span>(<span class="code-string">"Failed to read temperature"</span>);
-        <span class="code-keyword">return</span>;
-    }
-    
-    <span class="code-keyword">if</span> (temp > 28) {
-        digitalWrite(RELAY2_PIN, HIGH);
-    } <span class="code-keyword">else</span> {
-        digitalWrite(RELAY2_PIN, LOW);
-    }
-}
-
-<span class="code-comment">// Security system with keypad</span>
-<span class="code-keyword">void</span> <span class="code-function">checkPassword</span>() {
-    Serial.<span class="code-function">println</span>(<span class="code-string">"Checking password: "</span> + input);
-    
-    <span class="code-keyword">if</span> (input == passwordCode) {
-        digitalWrite(UNLOCK_LED, HIGH);
-        digitalWrite(LOCK_LED, LOW);
-        digitalWrite(RELAY3_PIN, HIGH); <span class="code-comment">// Unlock solenoid</span>
-        digitalWrite(BUZZER_PIN, LOW);
-        doorLocked = <span class="code-keyword">false</span>;
-        Serial.<span class="code-function">println</span>(<span class="code-string">"Access granted"</span>);
-    } <span class="code-keyword">else</span> {
-        digitalWrite(BUZZER_PIN, HIGH);
-        <span class="code-function">delay</span>(1000);
-        digitalWrite(BUZZER_PIN, LOW);
-        Serial.<span class="code-function">println</span>(<span class="code-string">"Access denied"</span>);
-    }
-    input = <span class="code-string">""</span>;
-}
-
-<span class="code-comment">// MQTT connection handler</span>
-<span class="code-keyword">void</span> <span class="code-function">MQTT_connect</span>() {
-    <span class="code-keyword">int8_t</span> <span class="code-variable">ret</span>;
-
-    <span class="code-keyword">if</span> (mqtt.<span class="code-function">connected</span>()) {
-        <span class="code-keyword">return</span>;
-    }
-
-    Serial.<span class="code-function">print</span>(<span class="code-string">"Connecting to MQTT... "</span>);
-
-    <span class="code-keyword">uint8_t</span> <span class="code-variable">retries</span> = 3;
-    <span class="code-keyword">while</span> ((ret = mqtt.<span class="code-function">connect</span>()) != 0) { 
-        Serial.<span class="code-function">println</span>(mqtt.<span class="code-function">connectErrorString</span>(ret));
-        Serial.<span class="code-function">println</span>(<span class="code-string">"Retrying MQTT connection in 5 seconds..."</span>);
-        mqtt.<span class="code-function">disconnect</span>();
-        <span class="code-function">delay</span>(5000); 
-        retries--;
-        <span class="code-keyword">if</span> (retries == 0) {
-            Serial.<span class="code-function">println</span>(<span class="code-string">"MQTT connection failed permanently!"</span>);
-            <span class="code-keyword">return</span>;
-        }
-    }
-    Serial.<span class="code-function">println</span>(<span class="code-string">"MQTT Connected!"</span>);
-}</code></pre>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Component Acquisition & Testing</h3>
+                        <p>Procured all necessary components and tested each one individually to ensure functionality.</p>
+                        <p><strong>Duration:</strong> Week 2</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Circuit Design & Assembly</h3>
+                        <p>Created circuit diagrams and assembled the hardware components on breadboard.</p>
+                        <p><strong>Duration:</strong> Week 3</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Software Development</h3>
+                        <p>Developed Arduino code for sensor reading, automation logic, and MQTT communication.</p>
+                        <p><strong>Duration:</strong> Week 4</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Integration & Testing</h3>
+                        <p>Integrated hardware and software components, tested system functionality, and debugged issues.</p>
+                        <p><strong>Duration:</strong> Week 5</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Documentation & Website</h3>
+                        <p>Created comprehensive documentation and developed this website to showcase the project.</p>
+                        <p><strong>Duration:</strong> Week 6</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--behind the scene-->
+
+    <!-- Project Status Section -->
+    <section id="status">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Status & Demonstration</h2>
+                <p>Current state of the project and working demonstrations</p>
+            </div>
+            
+            <div class="status-container">
+                <div class="status-item">
+                    <div class="status-header">
+                        <h3 class="status-title">Hardware Implementation</h3>
+                        <span class="status-badge badge-completed">Completed</span>
+                    </div>
+                    <p>All hardware components have been successfully integrated and tested. The system responds correctly to sensor inputs and manual controls.</p>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h3 class="status-title">Software Development</h3>
+                        <span class="status-badge badge-completed">Completed</span>
+                    </div>
+                    <p>All automation logic, sensor reading, and MQTT communication code has been implemented and tested successfully.</p>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h3 class="status-title">Remote Control Interface</h3>
+                        <span class="status-badge badge-completed">Completed</span>
+                    </div>
+                    <p>Adafruit IO dashboard is fully functional, allowing remote monitoring and control of all system functions.</p>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h3 class="status-title">System Integration</h3>
+                        <span class="status-badge badge-completed">Completed</span>
+                    </div>
+                    <p>Hardware and software components are fully integrated and working together as a complete system.</p>
+                </div>
+            </div>
+            
+            <!-- <div class="section-title" style="margin-top: 4rem;">
+                <h3>Project Demonstration</h3>
+                <p>Videos showing the system in action</p>
+            </div>
+            
+            <div class="video1">
+                <div class="video-container">
+                    <h4>System Setup & Testing</h4>
+                    <video width="320" height="240" controls>
+                        <source src="uploading done.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>Uploading Arduino codes to ESP32 microcontroller</p>
+                </div>
+                
+                <div class="video-container">
+                    <h4>Adafruit IO Dashboard</h4>
+                    <div class="component-img">
+                        <img src="dashboard.PNG" alt="Adafruit IO Dashboard">
+                    </div>
+                    <p>Remote control interface on Adafruit IO</p>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    
+      <!--behind the scene-->
     <section id="behindthescene">
       <div class="container">
             <div class="section-title">
@@ -1148,7 +1272,104 @@
         </div>
     </section>
    <p></p>
-  
+    <!-- Code Section -->
+    <section id="code" style="background-color: #94a4b6;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Code Implementation</h2>
+                <p>Key logical codes used in our Smart Room Automation System</p>
+            </div>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="language">Arduino C++</span>
+                    <span>main.ino</span>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="code-comment">// Automatic lighting control based on LDR sensor</span>
+<span class="code-keyword">void</span> <span class="code-function">handleLighting</span>() {
+    <span class="code-keyword">if</span> (!autoLighting) <span class="code-keyword">return</span>;
+
+    <span class="code-keyword">int</span> <span class="code-variable">lightLevel</span> = analogRead(LDR_PIN);
+
+    <span class="code-keyword">if</span> (lightLevel < LIGHT_ON_THRESHOLD) {
+        <span class="code-keyword">if</span> (!lampState) {
+            digitalWrite(RELAY1_PIN, HIGH);
+            lampState = <span class="code-keyword">true</span>;
+            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned ON (dark)"</span>);
+        }
+    } <span class="code-keyword">else</span> <span class="code-keyword">if</span> (lightLevel > LIGHT_OFF_THRESHOLD) {
+        <span class="code-keyword">if</span> (lampState) {
+            digitalWrite(RELAY1_PIN, LOW);
+            lampState = <span class="code-keyword">false</span>;
+            Serial.<span class="code-function">println</span>(<span class="code-string">"Lamp turned OFF (bright)"</span>);
+        }
+    }
+}
+
+<span class="code-comment">// Climate control based on temperature</span>
+<span class="code-keyword">void</span> <span class="code-function">handleClimate</span>() {
+    <span class="code-keyword">if</span> (!autoClimate) <span class="code-keyword">return</span>;
+    
+    <span class="code-keyword">float</span> <span class="code-variable">temp</span> = dht11.readTemperature();
+    <span class="code-keyword">if</span> (temp == -1) {
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Failed to read temperature"</span>);
+        <span class="code-keyword">return</span>;
+    }
+    
+    <span class="code-keyword">if</span> (temp > 28) {
+        digitalWrite(RELAY2_PIN, HIGH);
+    } <span class="code-keyword">else</span> {
+        digitalWrite(RELAY2_PIN, LOW);
+    }
+}
+
+<span class="code-comment">// Security system with keypad</span>
+<span class="code-keyword">void</span> <span class="code-function">checkPassword</span>() {
+    Serial.<span class="code-function">println</span>(<span class="code-string">"Checking password: "</span> + input);
+    
+    <span class="code-keyword">if</span> (input == passwordCode) {
+        digitalWrite(UNLOCK_LED, HIGH);
+        digitalWrite(LOCK_LED, LOW);
+        digitalWrite(RELAY3_PIN, HIGH); <span class="code-comment">// Unlock solenoid</span>
+        digitalWrite(BUZZER_PIN, LOW);
+        doorLocked = <span class="code-keyword">false</span>;
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Access granted"</span>);
+    } <span class="code-keyword">else</span> {
+        digitalWrite(BUZZER_PIN, HIGH);
+        <span class="code-function">delay</span>(1000);
+        digitalWrite(BUZZER_PIN, LOW);
+        Serial.<span class="code-function">println</span>(<span class="code-string">"Access denied"</span>);
+    }
+    input = <span class="code-string">""</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+                
+                <!-- <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <form id="messageForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div> -->
+
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1156,51 +1377,38 @@
                 <div class="footer-about">
                     <div class="footer-logo">
                         <i class="fas fa-home"></i>
-                        <span>SmartHome IoT</span>
+                        <span>Smart Room Control System</span>
                     </div>
-                    <p>An innovative IoT-based smart room control system that
-                         brings intelligence and convenience to your living space
-                        and to help you simplify and make work more easy than usual.</p>
+                    <p>An innovative IoT-based smart room control system that brings intelligence and convenience to your living space.</p>
                 </div>
                 <div class="footer-links">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="#creators">Creators</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#project">Project</a></li>
+                        <li><a href="#working">How It Works</a></li>
                         <li><a href="#components">Components</a></li>
-                        <li><a href="#working">Working Principle</a></li>
-                        <li><a href="#blockdiagram">Block Diagram</a></li>
-                        <li><a href="#circuitdiagram">Circuit Diagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li><a href="#progress">Progress</a></li>
+                        <li><a href="#status">Status</a></li>
                         <li><a href="#code">Code</a></li>
-                        <li><a href="#behindthescene">Behind The scene</a></li>
+                        <li><a href="#team">Team</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h3>Resources</h3>
                     <ul>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Source Code</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Block Diagram</a></li>
-                        <li><a href="#">Circuit diagram</a></li>
-                        <li><a href="#">Behing The Scene</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>Connect With Us</h3>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i> Youtube</a></li>
+                        <li><a href="#architecture">System Architecture</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Smart Room Control System(IoT). All rights reserved.</p>
+                <p>&copy; 2025 Smart Room Control System. All rights reserved.</p>
             </div>
         </div>
     </footer>
